@@ -39,5 +39,8 @@ df_habits = pd.DataFrame([{
 
 df_all = pd.concat([df_workouts, df_runs, df_habits])
 
-fig = px.bar(df_all, x="date", color="type", barmode="group")
-st.plotly_chart(fig)
+if df_all.empty:
+    st.write("Noch keine Aktivitäten eingetragen!")
+else:
+    fig = px.bar(df_all, x="date", color="type", barmode="group")
+    st.plotly_chart(fig)
