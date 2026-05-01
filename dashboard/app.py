@@ -17,10 +17,9 @@ habits = db.query(Habits).all()
 db.close()
 
 st.title("FitTracker")
-st.write("More detailed information will be provided here later")
 
-monat = datetime.now().strftime("%B %Y")
-st.subheader(f"Aktivitäten im {monat}")
+month = datetime.now().strftime("%B %Y")
+st.subheader(f"Activities in {month}")
 
 df_workouts = pd.DataFrame([{
     "date": w.date,
@@ -40,7 +39,7 @@ df_habits = pd.DataFrame([{
 df_all = pd.concat([df_workouts, df_runs, df_habits])
 
 if df_all.empty:
-    st.write("Noch keine Aktivitäten eingetragen!")
+    st.write("No activities recorded yet!")
 else:
     fig = px.bar(df_all, x="date", color="type", barmode="group")
     st.plotly_chart(fig)
