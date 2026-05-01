@@ -36,18 +36,19 @@ df = pd.DataFrame([{
     "id": r.id,
     "length": r.length,
     "time": r.time,
-    "date": r.date.strftime("%d.%m.%Y")
+    "date": r.date.strftime("%Y-%m-%d"),
+    "date_display": r.date.strftime("%d.%m.%Y")
 } for r in runs])
 if df.empty:
     st.write("Noch keine Runs eingetragen!")
 else:
-    for date, group in df.groupby("date"):
-            st.subheader(str(date))
-            header1, header2, header3 = st.columns([2, 2, 1])
-            header1.write("**Length**")
-            header2.write("**Time**")
-            header3.write("**Delete**")
-            for index, row in group.iterrows():
+    for date, group in df.sort_values("date", ascending=False).groupby("date", sort=False):
+        st.subheader(group["date_display"].iloc[0])
+        header1, header2, header3 = st.columns([2, 2, 1])
+        header1.write("**Length**")
+        header2.write("**Time**")
+        header3.write("**Delete**")
+        for index, row in group.iterrows():
                 col1, col2, col3,= st.columns([2, 2, 1])
                 col1.write(str(round(row['length'], 2)))
                 col2.write(str(round(row['time'], 2)))
