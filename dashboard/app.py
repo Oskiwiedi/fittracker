@@ -22,17 +22,17 @@ month = datetime.now().strftime("%B %Y")
 st.subheader(f"Activities in {month}")
 
 df_workouts = pd.DataFrame([{
-    "date": w.date,
+    "date": w.date.strftime("%d.%m.%Y"),
     "type": "Workout"
 } for w in workouts])
 
 df_runs = pd.DataFrame([{
-    "date": r.date,
+    "date": r.date.strftime("%d.%m.%Y"),
     "type": "Run"
 } for r in runs])
 
 df_habits = pd.DataFrame([{
-    "date": h.date,
+    "date": h.date.strftime("%d.%m.%Y"),
     "type": "Habit"
 } for h in habits])
 
