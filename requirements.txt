@@ -5,3 +5,4 @@ streamlit        # Web Dashboard
 pandas           # Daten verarbeiten
 plotly           # Charts
 streamlit-authenticator #Login
+stravalib
