@@ -5,6 +5,10 @@ import streamlit as st
 from db.database import SessionLocal
 from db.models import Workout
 
+if not st.session_state.get("authentication_status"):
+    st.error("Please login first!")
+    st.stop()
+
 with st.form("workout_form"):
     exersice = st.text_input("Excersice")
     weight = st.number_input("Weight")

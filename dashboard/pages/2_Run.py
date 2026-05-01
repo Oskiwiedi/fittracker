@@ -5,6 +5,10 @@ import streamlit as st
 from db.database import SessionLocal
 from db.models import Run
 
+if not st.session_state.get("authentication_status"):
+    st.error("Please login first!")
+    st.stop()
+
 with st.form("run_form"):
     length = st.number_input("Length (km)")
     time = st.number_input("Time (min)")
