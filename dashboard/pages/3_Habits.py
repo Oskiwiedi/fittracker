@@ -28,12 +28,27 @@ db.close()
 import pandas as pd
 
 df = pd.DataFrame([{
+    "id": h.id,
     "name": h.name,
     "done": h.done,
-    "date": h.date
+    "date": h.date.strftime("%d.%m.%Y")
 } for h in habits])
-df = df.sort_values("date")
-df = df.sort_values("date", ascending=False)
-for date, group in df.groupby("date"):
-    st.subheader(str(date))
-    st.dataframe(group)
+if df.empty:
+    st.write("Noch keine Habits eingetragen!")
+else:
+    for date, group in df.groupby("date"):
+            st.subheader(str(date))
+            header1, header2, header3= st.columns([2, 2, 1])
+            header1.write("**Name**")
+            header2.write("**Done**")
+            header3.write("**Delete**")
+            for index, row in group.iterrows():
+                col1, col2, col3 = st.columns([2, 2, 1])
+                col1.write(str(row['name']))
+                col2.write(str(row['done']))
+                if col3.button("❌", key=f"delete_{row['id']}"):
+                    db = SessionLocal()
+                    db.query(Habits).filter(Habits.id == row["id"]).delete()
+                    db.commit()
+                    db.close()
+                    st.rerun()

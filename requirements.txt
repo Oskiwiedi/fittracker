@@ -1,0 +1,6 @@
+sqlalchemy       # ORM für Datenbankmodels
+psycopg2-binary  # PostgreSQL Treiber
+python-dotenv    # .env Datei laden
+streamlit        # Web Dashboard
+pandas           # Daten verarbeiten
+plotly           # Charts

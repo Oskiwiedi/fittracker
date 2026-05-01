@@ -30,13 +30,30 @@ db.close()
 import pandas as pd
 
 df = pd.DataFrame([{
+    "id": r.id,
     "length": r.length,
     "time": r.time,
     "calories": r.calories,
-    "date": r.date
+    "date": r.date.strftime("%d.%m.%Y")
 } for r in runs])
-df = df.sort_values("date")
-df = df.sort_values("date", ascending=False)
-for date, group in df.groupby("date"):
-    st.subheader(str(date))
-    st.dataframe(group)
+if df.empty:
+    st.write("Noch keine Runs eingetragen!")
+else:
+    for date, group in df.groupby("date"):
+            st.subheader(str(date))
+            header1, header2, header3, header4 = st.columns([2, 2, 2, 1])
+            header1.write("**Length**")
+            header2.write("**Time**")
+            header3.write("**Calories**")
+            header4.write("**Delete**")
+            for index, row in group.iterrows():
+                col1, col2, col3, col4 = st.columns([2, 2, 2, 1])
+                col1.write(str(row['length']))
+                col2.write(str(row['time']))
+                col3.write(str(row['calories']))
+                if col4.button("❌", key=f"delete_{row['id']}"):
+                    db = SessionLocal()
+                    db.query(Run).filter(Run.id == row["id"]).delete()
+                    db.commit()
+                    db.close()
+                    st.rerun()
